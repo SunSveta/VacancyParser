@@ -70,3 +70,41 @@ class Superjob(Engine):
             else:
                 break
         return result
+
+if __name__ =='__main__':
+    website = int(
+        input('Выберете сайт, на котором будет производиться поиск: \n1 - https://hh.ru\n2 - https://superjob.ru\n'))
+    search_word = input('Введите ключевое слово для поиска: ')
+    top_count = int(input('Сколько вакансий нужно вывести?  '))
+    is_sorting = int(input('Сортировать вакансии по уменьшению зарплаты? Да - 1, нет - 0: '))
+
+    while True:
+        vacancies_count = 100
+        if website == 1:
+            hh_engine = HH()
+            resHH = hh_engine.get_request(search_word, vacancies_count)
+            a = HH.get_connector('res.json')
+            a.insert(resHH)
+            HHVacancy.add_vacancies_list('res.json')
+            if is_sorting:
+                sort_list = sorting(HHVacancy.vacancies)
+                get_top(sort_list, top_count)
+                print(HHVacancy.get_count_of_vacancy)
+            else:
+                get_top(HHVacancy.vacancies, top_count)
+                print(HHVacancy.get_count_of_vacancy)
+
+        if website == 2:
+            sj_engine = Superjob()
+            resSJ = sj_engine.get_request(search_word, vacancies_count)
+            b = Superjob.get_connector('sj_res.json')
+            b.insert(resSJ)
+            SJVacancy.add_vacancies_list('sj_res.json')
+            if is_sorting:
+                sort_list = sorting(SJVacancy.vacancies)
+                get_top(sort_list, top_count)
+                print(SJVacancy.get_count_of_vacancy)
+            else:
+                get_top(SJVacancy.vacancies, top_count)
+                print(SJVacancy.get_count_of_vacancy)
+        break
