@@ -57,7 +57,6 @@ class Connector:
         fp.close()
 
     def select(self, query):
-
         fp = open(self.__data_file, 'r', encoding='utf-8')
         data = json.load(fp)
         fp.close()
