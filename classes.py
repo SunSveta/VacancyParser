@@ -116,3 +116,24 @@ class SJVacancy(CountMixin, Vacancy):  # add counter mixin
 
                     company_name = j.get("firm_name")
                     cls.vacancies.append(SJVacancy(a, b, c, d, company_name))
+
+def sorting(vacancies):
+    """ Должен сортировать любой список вакансий по ежемесячной оплате (gt, lt magic methods) """
+    vacancies = sorted(vacancies, reverse=True)
+    return vacancies
+
+
+def get_top(vacancies, top_count):
+    """ Должен возвращать {top_count} записей из вакансий по зарплате (iter, next magic methods) """
+    for i in range(top_count):
+        print(vacancies[i])
+
+if __name__ == '__main__':
+    SJVacancy.add_vacancies_list('sj_res.json')
+    sort_list = sorting(SJVacancy.vacancies)
+    get_top(sort_list, 2)
+    # HHVacancy.add_vacancies_list('res.json')
+    # sort_list = sorting(HHVacancy.vacancies)
+    # get_top(sort_list, 4)
+
+    print(SJVacancy.get_count_of_vacancy)
